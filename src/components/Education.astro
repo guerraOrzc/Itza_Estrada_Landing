@@ -7,10 +7,10 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
 
 <section
   id="formacion"
-  style="padding: var(--section-padding-y) var(--section-padding-x);"
+  style="padding: var(--section-padding-y) var(--section-padding-x); background-color: var(--color-bg-alt);"
 >
   <div class="mx-auto" style="max-width: var(--container-max-width);">
-    <div class="mb-12 text-center">
+    <div class="mb-16 text-center">
       <h2
         class="m-0"
         style="
@@ -28,71 +28,98 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
       ></div>
     </div>
 
-    <div class="mx-auto max-w-3xl space-y-5">
-      {
-        sorted.map((cert) => (
-          <article
-            class="group flex flex-col gap-1 rounded-[--radius-md] border-l-4 p-6 transition-shadow duration-[--transition-base] hover:shadow-[--shadow-md]"
-            style="
-              border-color: var(--color-primary);
-              background-color: var(--color-bg);
-              box-shadow: var(--shadow-sm);
-            "
-          >
-            <div class="flex flex-wrap items-baseline justify-between gap-2">
-              <h3
-                class="m-0"
-                style="
-                  font-family: var(--font-heading);
-                  font-size: var(--font-size-xl);
-                  font-weight: var(--font-weight-semibold);
-                  color: var(--color-text);
-                "
-              >
-                {cert.data.title}
-              </h3>
+    <div class="relative mx-auto max-w-4xl">
+      <!-- Vertical timeline line -->
+      <div
+        class="absolute left-[19px] top-2 h-full w-0.5 md:left-1/2 md:-translate-x-px"
+        style="background: linear-gradient(to bottom, var(--color-primary), var(--color-primary-light));"
+        aria-hidden="true"
+      ></div>
 
-              <span
-                class="shrink-0 rounded-[--radius-full] px-3 py-0.5"
-                style="
-                  background-color: var(--color-accent-light);
-                  color: var(--color-accent);
-                  font-size: var(--font-size-sm);
-                  font-weight: var(--font-weight-semibold);
-                "
-              >
-                {cert.data.year}
-              </span>
-            </div>
-
-            <p
-              class="m-0"
-              style="
-                color: var(--color-text-muted);
-                font-size: var(--font-size-base);
-                font-weight: var(--font-weight-medium);
-              "
-            >
-              {cert.data.institution}
-            </p>
-
-            {
-              cert.data.description && (
-                <p
-                  class="m-0 mt-2"
+      <div class="flex flex-col">
+        {
+          sorted.map((cert, i) => {
+            const isEven = i % 2 === 0;
+            return (
+              <div class={`relative flex pb-12 last:pb-0 md:pb-16 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                {/* Timeline dot */}
+                <div
+                  class="absolute left-[12px] top-2 z-10 h-4 w-4 rounded-full border-[3px] md:left-1/2 md:-translate-x-1/2"
                   style="
-                    color: var(--color-text-muted);
-                    font-size: var(--font-size-sm);
-                    line-height: var(--line-height-relaxed);
+                    background-color: var(--color-bg-alt);
+                    border-color: var(--color-primary);
                   "
-                >
-                  {cert.data.description}
-                </p>
-              )
-            }
-          </article>
-        ))
-      }
+                  aria-hidden="true"
+                ></div>
+
+                {/* Spacer for timeline center alignment on desktop */}
+                <div class="hidden w-1/2 md:block" aria-hidden="true"></div>
+
+                {/* Content card */}
+                <div class={`pl-12 md:w-1/2 md:pl-0 ${isEven ? 'md:pr-10 md:text-right' : 'md:pl-10 md:text-left'}`}>
+                  <time
+                    class="mb-1 inline-block font-semibold tracking-wide"
+                    style="
+                      color: var(--color-primary);
+                      font-size: var(--font-size-sm);
+                      font-family: var(--font-body);
+                    "
+                  >
+                    {cert.data.year}
+                  </time>
+
+                  <article
+                    class="group rounded-[--radius-md] p-5 transition-all duration-[--transition-base] hover:-translate-y-0.5 hover:shadow-[--shadow-md]"
+                    style="
+                      background-color: var(--color-bg);
+                      box-shadow: var(--shadow-sm);
+                    "
+                  >
+                    <h3
+                      class="m-0 mb-1"
+                      style="
+                        font-family: var(--font-heading);
+                        font-size: var(--font-size-lg);
+                        font-weight: var(--font-weight-semibold);
+                        color: var(--color-text);
+                      "
+                    >
+                      {cert.data.title}
+                    </h3>
+
+                    <p
+                      class="m-0"
+                      style="
+                        color: var(--color-text-muted);
+                        font-size: var(--font-size-sm);
+                        font-weight: var(--font-weight-medium);
+                      "
+                    >
+                      {cert.data.institution}
+                    </p>
+
+                    {
+                      cert.data.description && (
+                        <p
+                          class="m-0 mt-3 border-t pt-3"
+                          style="
+                            color: var(--color-text-muted);
+                            font-size: var(--font-size-sm);
+                            line-height: var(--line-height-relaxed);
+                            border-color: var(--color-primary-light);
+                          "
+                        >
+                          {cert.data.description}
+                        </p>
+                      )
+                    }
+                  </article>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
     </div>
   </div>
 </section>

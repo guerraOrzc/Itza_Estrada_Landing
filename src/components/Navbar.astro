@@ -8,23 +8,21 @@ const navLinks = [
 ];
 ---
 
-<header
-  id="inicio"
-  class="fixed top-0 left-0 right-0 z-50"
-  style="height: var(--navbar-height);"
->
+<header class="fixed inset-x-0 top-4 z-50 flex justify-center">
   <nav
-    class="mx-auto flex h-full items-center justify-between px-[--section-padding-x] transition-all duration-[--transition-base]"
+    class="flex items-center justify-between gap-6 px-5 py-3 shadow-[--shadow-md] transition-all duration-[--transition-base] md:gap-10 md:px-8 md:py-3.5"
     style="
-      max-width: var(--container-max-width);
-      background-color: rgba(250, 248, 245, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--radius-full);
+      background-color: rgba(250, 248, 245, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      max-width: 90vw;
     "
   >
+    <!-- Logo -->
     <a
       href="#inicio"
-      class="text-[1.125rem] tracking-tight no-underline"
+      class="shrink-0 text-[1rem] tracking-tight no-underline md:text-[1.125rem]"
       style="
         font-family: var(--font-heading);
         font-weight: var(--font-weight-semibold);
@@ -34,14 +32,14 @@ const navLinks = [
       Itza Estrada
     </a>
 
-    <!-- Desktop nav -->
-    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+    <!-- Desktop links -->
+    <ul class="hidden md:flex items-center gap-6 list-none m-0 p-0">
       {
         navLinks.map((link) => (
           <li>
             <a
               href={link.href}
-              class="relative text-[--font-size-sm] tracking-wide no-underline transition-colors duration-[--transition-fast]"
+              class="relative whitespace-nowrap text-[0.8125rem] tracking-wide no-underline transition-colors duration-[--transition-fast]"
               style="
                 font-weight: var(--font-weight-medium);
                 color: var(--color-text-muted);
@@ -49,7 +47,7 @@ const navLinks = [
             >
               {link.label}
               <span
-                class="nav-underline absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 transition-transform duration-[--transition-base]"
+                class="nav-underline absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full transition-transform duration-[--transition-base]"
                 style="background-color: var(--color-primary);"
               >
               </span>
@@ -59,18 +57,13 @@ const navLinks = [
       }
     </ul>
 
-    <!-- Mobile hamburger (CSS-only via details/summary) -->
+    <!-- Mobile hamburger -->
     <details class="group md:hidden">
-      <summary class="list-none cursor-pointer p-2" style="color: var(--color-text);">
+      <summary class="flex list-none cursor-pointer items-center p-1" style="color: var(--color-text);">
         <svg
           class="group-open:hidden"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
+          width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
           aria-label="Abrir menú"
         >
           <line x1="3" y1="6" x2="21" y2="6" />
@@ -79,13 +72,8 @@ const navLinks = [
         </svg>
         <svg
           class="hidden group-open:block"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
+          width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
           aria-label="Cerrar menú"
         >
           <line x1="18" y1="6" x2="6" y2="18" />
@@ -94,7 +82,7 @@ const navLinks = [
       </summary>
 
       <ul
-        class="absolute top-full right-0 mt-2 w-48 list-none m-0 rounded-lg p-4 space-y-3 shadow-[--shadow-lg]"
+        class="absolute right-0 top-full mt-3 w-48 list-none m-0 rounded-2xl p-4 space-y-3 shadow-[--shadow-lg]"
         style="background-color: var(--color-bg);"
       >
         {
@@ -102,7 +90,7 @@ const navLinks = [
             <li>
               <a
                 href={link.href}
-                class="block text-[--font-size-sm] tracking-wide no-underline transition-colors duration-[--transition-fast]"
+                class="block text-[0.8125rem] tracking-wide no-underline transition-colors duration-[--transition-fast]"
                 style="
                   color: var(--color-text-muted);
                   font-weight: var(--font-weight-medium);
