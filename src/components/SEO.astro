@@ -1,0 +1,83 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  schema?: object;
+}
+
+const {
+  title,
+  description,
+  image = '/images/og-default.jpg',
+  type = 'website',
+  schema,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+
+const defaultSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Physiotherapy',
+      name: 'Itza Estrada — Fisioterapia',
+      description:
+        'Servicios profesionales de fisioterapia: terapia manual, rehabilitación deportiva, corrección postural y suelo pélvico.',
+      url: 'https://itzaestrada.com',
+      telephone: '+52-XX-XXXX-XXXX',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'MX',
+      },
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+      sameAs: [
+        'https://instagram.com/itzaestrada',
+        'https://facebook.com/itzaestrada',
+      ],
+    },
+    {
+      '@type': 'Person',
+      name: 'Itza Estrada',
+      jobTitle: 'Fisioterapeuta',
+      url: 'https://itzaestrada.com',
+      sameAs: [
+        'https://instagram.com/itzaestrada',
+        'https://facebook.com/itzaestrada',
+      ],
+    },
+  ],
+};
+
+const jsonLd = schema ?? defaultSchema;
+---
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+
+<!-- Primary Meta Tags -->
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site).href} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:type" content={type} />
+<meta property="og:locale" content="es_MX" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.site).href} />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#2D6A4F" />

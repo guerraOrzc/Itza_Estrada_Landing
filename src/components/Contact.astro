@@ -1,0 +1,251 @@
+<section
+  id="contacto"
+  style="padding: var(--section-padding-y) var(--section-padding-x);"
+>
+  <div class="mx-auto" style="max-width: var(--container-max-width);">
+    <div class="mb-12 text-center">
+      <h2
+        class="m-0"
+        style="
+          font-family: var(--font-heading);
+          font-size: var(--font-size-4xl);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-text);
+        "
+      >
+        Contacto
+      </h2>
+      <div
+        class="mx-auto mt-4 h-1 w-16 rounded-full"
+        style="background-color: var(--color-accent);"
+      ></div>
+      <p
+        class="mx-auto mt-4 max-w-lg"
+        style="
+          color: var(--color-text-muted);
+          font-size: var(--font-size-lg);
+          line-height: var(--line-height-relaxed);
+        "
+      >
+        Estaré encantada de atenderte. Escríbeme y te responderé a la brevedad.
+      </p>
+    </div>
+
+    <div class="mx-auto grid max-w-4xl gap-10 md:grid-cols-5">
+      <!-- Contact form -->
+      <form
+        action="/api/contact"
+        method="POST"
+        class="flex flex-col gap-5 md:col-span-3"
+      >
+        <div class="flex flex-col gap-1.5">
+          <label
+            for="nombre"
+            style="
+              font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-medium);
+              color: var(--color-text);
+            "
+          >
+            Nombre <span style="color: var(--color-accent);">*</span>
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            required
+            placeholder="Tu nombre completo"
+            class="rounded-[--radius-md] border px-4 py-3 outline-none transition-colors duration-[--transition-fast]"
+            style="
+              background-color: var(--color-bg);
+              border-color: var(--color-bg-alt);
+              color: var(--color-text);
+              font-family: var(--font-body);
+              font-size: var(--font-size-base);
+            "
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label
+            for="email"
+            style="
+              font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-medium);
+              color: var(--color-text);
+            "
+          >
+            Correo electrónico <span style="color: var(--color-accent);">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="tu@correo.com"
+            class="rounded-[--radius-md] border px-4 py-3 outline-none transition-colors duration-[--transition-fast]"
+            style="
+              background-color: var(--color-bg);
+              border-color: var(--color-bg-alt);
+              color: var(--color-text);
+              font-family: var(--font-body);
+              font-size: var(--font-size-base);
+            "
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label
+            for="telefono"
+            style="
+              font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-medium);
+              color: var(--color-text);
+            "
+          >
+            Teléfono <span style="color: var(--color-text-muted); font-size: var(--font-size-xs);">(opcional)</span>
+          </label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            placeholder="+52 123 456 7890"
+            class="rounded-[--radius-md] border px-4 py-3 outline-none transition-colors duration-[--transition-fast]"
+            style="
+              background-color: var(--color-bg);
+              border-color: var(--color-bg-alt);
+              color: var(--color-text);
+              font-family: var(--font-body);
+              font-size: var(--font-size-base);
+            "
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label
+            for="mensaje"
+            style="
+              font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-medium);
+              color: var(--color-text);
+            "
+          >
+            Mensaje <span style="color: var(--color-accent);">*</span>
+          </label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            required
+            rows="4"
+            placeholder="Cuéntame cómo puedo ayudarte..."
+            class="resize-y rounded-[--radius-md] border px-4 py-3 outline-none transition-colors duration-[--transition-fast]"
+            style="
+              background-color: var(--color-bg);
+              border-color: var(--color-bg-alt);
+              color: var(--color-text);
+              font-family: var(--font-body);
+              font-size: var(--font-size-base);
+            "
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="group mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-[--radius-full] border-none px-8 py-3.5 transition-all duration-[--transition-base] hover:scale-[1.02]"
+          style="
+            background-color: var(--color-primary);
+            color: var(--color-text-inverse);
+            font-family: var(--font-body);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            box-shadow: var(--shadow-md);
+          "
+        >
+          Enviar mensaje
+          <svg
+            class="transition-transform duration-[--transition-base] group-hover:translate-x-0.5"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </form>
+
+      <!-- Alternative contact info -->
+      <aside class="flex flex-col gap-6 rounded-[--radius-lg] p-8 md:col-span-2"
+        style="background-color: var(--color-bg-alt);"
+      >
+        <h3
+          class="m-0"
+          style="
+            font-family: var(--font-heading);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+          "
+        >
+          También puedes contactarme por:
+        </h3>
+
+        <div class="flex flex-col gap-4">
+          <div class="flex items-start gap-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              style="color: var(--color-primary); flex-shrink: 0; margin-top: 2px;">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <div>
+              <p class="m-0 text-[--font-size-xs]" style="color: var(--color-text-muted);">Teléfono</p>
+              <a href="tel:+521234567890" class="no-underline" style="color: var(--color-text); font-weight: var(--font-weight-medium);">
+                +52 123 456 7890
+              </a>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              style="color: var(--color-primary); flex-shrink: 0; margin-top: 2px;">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <div>
+              <p class="m-0 text-[--font-size-xs]" style="color: var(--color-text-muted);">Correo</p>
+              <a href="mailto:itza@itzaestrada.com" class="no-underline" style="color: var(--color-text); font-weight: var(--font-weight-medium);">
+                itza@itzaestrada.com
+              </a>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              style="color: var(--color-primary); flex-shrink: 0; margin-top: 2px;">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <div>
+              <p class="m-0 text-[--font-size-xs]" style="color: var(--color-text-muted);">Ubicación</p>
+              <span style="color: var(--color-text); font-weight: var(--font-weight-medium);">
+                Mérida, Yucatán
+              </span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+</style>

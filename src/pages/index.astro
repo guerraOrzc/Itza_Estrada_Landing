@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Education from '../components/Education.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Itza Estrada — Fisioterapia que transforma vidas"
+  description="Atención fisioterapéutica personalizada basada en evidencia científica. Terapia manual, rehabilitación deportiva, corrección postural y suelo pélvico en Mérida, Yucatán."
+>
+  <Navbar />
+  <main>
+    <Hero />
+    <Services />
+    <Education />
+    <About />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

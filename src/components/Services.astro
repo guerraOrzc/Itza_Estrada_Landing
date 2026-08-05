@@ -1,0 +1,92 @@
+---
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const sorted = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section
+  id="servicios"
+  style="
+    padding: var(--section-padding-y) var(--section-padding-x);
+    background-color: var(--color-bg-alt);
+  "
+>
+  <div class="mx-auto" style="max-width: var(--container-max-width);">
+    <div class="mb-12 text-center">
+      <h2
+        class="m-0"
+        style="
+          font-family: var(--font-heading);
+          font-size: var(--font-size-4xl);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-text);
+        "
+      >
+        Servicios
+      </h2>
+      <div
+        class="mx-auto mt-4 h-1 w-16 rounded-full"
+        style="background-color: var(--color-primary);"
+      ></div>
+      <p
+        class="mx-auto mt-4 max-w-xl"
+        style="
+          color: var(--color-text-muted);
+          font-size: var(--font-size-lg);
+          line-height: var(--line-height-relaxed);
+        "
+      >
+        Cada tratamiento es diseñado específicamente para ti, combinando técnicas
+        manuales, ejercicio terapéutico y educación para el cuidado de tu salud.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        sorted.map((service) => (
+          <article
+            class="group flex flex-col rounded-[--radius-lg] p-8 transition-all duration-[--transition-base] hover:-translate-y-1"
+            style="
+              background-color: var(--color-bg);
+              box-shadow: var(--shadow-sm);
+            "
+          >
+            <span class="mb-5 text-[2.5rem] leading-none" aria-hidden="true">
+              {service.data.icon}
+            </span>
+
+            <h3
+              class="m-0 mb-3"
+              style="
+                font-family: var(--font-heading);
+                font-size: var(--font-size-xl);
+                font-weight: var(--font-weight-semibold);
+                color: var(--color-text);
+              "
+            >
+              {service.data.title}
+            </h3>
+
+            <p
+              class="m-0 flex-1"
+              style="
+                color: var(--color-text-muted);
+                font-size: var(--font-size-base);
+                line-height: var(--line-height-relaxed);
+              "
+            >
+              {service.data.description}
+            </p>
+
+            <!-- Subtle hover accent line -->
+            <div
+              class="mt-5 h-0.5 w-0 rounded-full transition-all duration-[--transition-base] group-hover:w-full"
+              style="background-color: var(--color-primary);"
+            ></div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

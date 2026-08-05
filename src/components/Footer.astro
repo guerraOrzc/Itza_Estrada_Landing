@@ -1,0 +1,162 @@
+<footer
+  style="
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-inverse);
+    padding: 3rem var(--section-padding-x) 1.5rem;
+  "
+>
+  <div
+    class="mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-4"
+    style="max-width: var(--container-max-width);"
+  >
+    <!-- Brand column -->
+    <div class="flex flex-col gap-3">
+      <span
+        style="
+          font-family: var(--font-heading);
+          font-size: var(--font-size-xl);
+          font-weight: var(--font-weight-semibold);
+        "
+      >
+        Itza Estrada
+      </span>
+      <p
+        class="m-0 opacity-80"
+        style="font-size: var(--font-size-sm); line-height: var(--line-height-relaxed);"
+      >
+        Fisioterapia basada en evidencia, centrada en ti.
+      </p>
+    </div>
+
+    <!-- Quick links -->
+    <div class="flex flex-col gap-3">
+      <span
+        style="
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-semibold);
+          opacity: 0.9;
+        "
+      >
+        Enlaces rápidos
+      </span>
+      <nav class="flex flex-col gap-2">
+        {(['Inicio', 'Servicios', 'Formación', 'Sobre Mí', 'Contacto']).map((label) => {
+          const href = label === 'Inicio' ? '#inicio'
+            : label === 'Servicios' ? '#servicios'
+            : label === 'Formación' ? '#formacion'
+            : label === 'Sobre Mí' ? '#sobre-mi'
+            : '#contacto';
+          return (
+            <a
+              href={href}
+              class="no-underline opacity-70 transition-opacity duration-[--transition-fast] hover:opacity-100"
+              style="font-size: var(--font-size-sm);"
+            >
+              {label}
+            </a>
+          );
+        })}
+      </nav>
+    </div>
+
+    <!-- Contact column -->
+    <div class="flex flex-col gap-3">
+      <span
+        style="
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-semibold);
+          opacity: 0.9;
+        "
+      >
+        Contacto
+      </span>
+      <div class="flex flex-col gap-2">
+        <a
+          href="mailto:itza@itzaestrada.com"
+          class="no-underline opacity-70 transition-opacity duration-[--transition-fast] hover:opacity-100"
+          style="font-size: var(--font-size-sm);"
+        >
+          itza@itzaestrada.com
+        </a>
+        <a
+          href="tel:+521234567890"
+          class="no-underline opacity-70 transition-opacity duration-[--transition-fast] hover:opacity-100"
+          style="font-size: var(--font-size-sm);"
+        >
+          +52 123 456 7890
+        </a>
+        <span
+          class="opacity-70"
+          style="font-size: var(--font-size-sm);"
+        >
+          Mérida, Yucatán
+        </span>
+      </div>
+    </div>
+
+    <!-- Social / extra column -->
+    <div class="flex flex-col gap-3">
+      <span
+        style="
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-semibold);
+          opacity: 0.9;
+        "
+      >
+        Sígueme
+      </span>
+      <div class="flex gap-4">
+        <a
+          href="#"
+          aria-label="Instagram"
+          class="flex h-10 w-10 items-center justify-center rounded-[--radius-full] no-underline opacity-70 transition-all duration-[--transition-fast] hover:opacity-100 hover:scale-110"
+          style="background-color: rgba(255, 255, 255, 0.15); font-size: 1.25rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="Facebook"
+          class="flex h-10 w-10 items-center justify-center rounded-[--radius-full] no-underline opacity-70 transition-all duration-[--transition-fast] hover:opacity-100 hover:scale-110"
+          style="background-color: rgba(255, 255, 255, 0.15); font-size: 1.25rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+          </svg>
+        </a>
+        <a
+          href="#"
+          aria-label="WhatsApp"
+          class="flex h-10 w-10 items-center justify-center rounded-[--radius-full] no-underline opacity-70 transition-all duration-[--transition-fast] hover:opacity-100 hover:scale-110"
+          style="background-color: rgba(255, 255, 255, 0.15); font-size: 1.25rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div
+    class="mx-auto mt-10 flex flex-col items-center gap-2 border-t pt-6 text-center sm:flex-row sm:justify-between"
+    style="
+      max-width: var(--container-max-width);
+      border-color: rgba(255, 255, 255, 0.15);
+      font-size: var(--font-size-xs);
+      opacity: 0.6;
+    "
+  >
+    <p class="m-0">
+      &copy; {new Date().getFullYear()} Itza Estrada &mdash; Fisioterapia
+    </p>
+    <p class="m-0">
+      Diseñado para cuidar de ti
+    </p>
+  </div>
+</footer>

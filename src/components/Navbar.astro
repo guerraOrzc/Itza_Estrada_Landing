@@ -1,0 +1,133 @@
+---
+const navLinks = [
+  { label: 'Inicio', href: '#inicio' },
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Formación', href: '#formacion' },
+  { label: 'Sobre Mí', href: '#sobre-mi' },
+  { label: 'Contacto', href: '#contacto' },
+];
+---
+
+<header
+  id="inicio"
+  class="fixed top-0 left-0 right-0 z-50"
+  style="height: var(--navbar-height);"
+>
+  <nav
+    class="mx-auto flex h-full items-center justify-between px-[--section-padding-x] transition-all duration-[--transition-base]"
+    style="
+      max-width: var(--container-max-width);
+      background-color: rgba(250, 248, 245, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    "
+  >
+    <a
+      href="#inicio"
+      class="text-[1.125rem] tracking-tight no-underline"
+      style="
+        font-family: var(--font-heading);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-primary-dark);
+      "
+    >
+      Itza Estrada
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="relative text-[--font-size-sm] tracking-wide no-underline transition-colors duration-[--transition-fast]"
+              style="
+                font-weight: var(--font-weight-medium);
+                color: var(--color-text-muted);
+              "
+            >
+              {link.label}
+              <span
+                class="nav-underline absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 transition-transform duration-[--transition-base]"
+                style="background-color: var(--color-primary);"
+              >
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Mobile hamburger (CSS-only via details/summary) -->
+    <details class="group md:hidden">
+      <summary class="list-none cursor-pointer p-2" style="color: var(--color-text);">
+        <svg
+          class="group-open:hidden"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-label="Abrir menú"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg
+          class="hidden group-open:block"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-label="Cerrar menú"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </summary>
+
+      <ul
+        class="absolute top-full right-0 mt-2 w-48 list-none m-0 rounded-lg p-4 space-y-3 shadow-[--shadow-lg]"
+        style="background-color: var(--color-bg);"
+      >
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="block text-[--font-size-sm] tracking-wide no-underline transition-colors duration-[--transition-fast]"
+                style="
+                  color: var(--color-text-muted);
+                  font-weight: var(--font-weight-medium);
+                "
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<style>
+  a:hover {
+    color: var(--color-primary) !important;
+  }
+
+  a:hover .nav-underline {
+    transform: scaleX(1);
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
