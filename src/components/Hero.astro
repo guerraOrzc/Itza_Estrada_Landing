@@ -3,23 +3,31 @@
   class="relative flex items-center overflow-hidden"
   style="min-height: calc(100vh - var(--navbar-height)); padding-top: calc(var(--navbar-height) + 1rem);"
 >
-  <!-- Background decoration -->
+  <!-- Background video -->
+  <video
+    class="absolute inset-0 h-full w-full object-cover"
+    autoplay
+    muted
+    loop
+    playsinline
+    poster="/images/hero-poster.jpg"
+  >
+    <source src="/videos/hero-background.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Dark overlay for text contrast -->
   <div
-    class="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full opacity-20"
-    style="background: var(--color-primary-light);"
-  ></div>
-  <div
-    class="absolute -bottom-20 -left-20 h-[300px] w-[300px] rounded-full opacity-15"
-    style="background: var(--color-accent-light);"
+    class="absolute inset-0"
+    style="background: linear-gradient(180deg, rgba(20, 20, 20, 0.55) 0%, rgba(20, 20, 20, 0.7) 100%);"
   ></div>
 
   <div
-    class="relative mx-auto grid w-full max-w-[--container-max-width] items-center gap-12 px-[--section-padding-x] md:grid-cols-2"
+    class="relative mx-auto w-full max-w-[--container-max-width] px-[--section-padding-x]"
   >
-    <!-- Left: text -->
-    <div class="animate-fade-in flex flex-col gap-6">
+    <!-- Text -->
+    <div class="animate-fade-in flex max-w-xl flex-col gap-6">
       <span
-        class="inline-block rounded-full px-4 py-1.5 text-[--font-size-xs] tracking-wider uppercase"
+        class="inline-block w-fit rounded-full px-4 py-1.5 text-[--font-size-xs] tracking-wider uppercase"
         style="
           background-color: var(--color-primary-light);
           color: var(--color-primary-dark);
@@ -35,7 +43,7 @@
           font-family: var(--font-heading);
           font-size: clamp(2rem, 5vw, 3.5rem);
           font-weight: var(--font-weight-bold);
-          color: var(--color-text);
+          color: #ffffff;
         "
       >
         Fisioterapia que transforma vidas
@@ -45,7 +53,7 @@
         class="m-0 max-w-md"
         style="
           font-size: var(--font-size-lg);
-          color: var(--color-text-muted);
+          color: rgba(255, 255, 255, 0.85);
           line-height: var(--line-height-relaxed);
         "
       >
@@ -76,45 +84,14 @@
           href="#servicios"
           class="inline-flex items-center rounded-[--radius-full] border-2 px-8 py-3.5 no-underline transition-all duration-[--transition-base] hover:-translate-y-0.5"
           style="
-            border-color: var(--color-primary);
-            color: var(--color-primary);
+            border-color: #ffffff;
+            color: #ffffff;
             font-weight: var(--font-weight-semibold);
             font-size: var(--font-size-base);
           "
         >
           Conoce mis servicios
         </a>
-      </div>
-    </div>
-
-    <!-- Right: placeholder image -->
-    <div class="animate-fade-in animate-delay-200 hidden md:flex items-center justify-center">
-      <div
-        class="relative flex h-80 w-80 items-center justify-center rounded-[--radius-lg] lg:h-96 lg:w-96"
-        style="
-          background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent-light));
-          box-shadow: var(--shadow-lg);
-        "
-      >
-        <!-- Physiotherapy SVG icon placeholder -->
-        <svg
-          class="h-28 w-28 lg:h-36 lg:w-36"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style="color: var(--color-primary);"
-        >
-          <!-- Stylised human figure -->
-          <circle cx="60" cy="26" r="12" stroke="currentColor" stroke-width="2.5" fill="none" opacity="0.7" />
-          <line x1="60" y1="38" x2="60" y2="72" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
-          <line x1="60" y1="72" x2="38" y2="98" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
-          <line x1="60" y1="72" x2="82" y2="98" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
-          <line x1="60" y1="48" x2="30" y2="60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
-          <line x1="60" y1="48" x2="90" y2="60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
-          <!-- Heart/hands symbolising care -->
-          <path d="M56 80 Q53 74 56 70 Q60 66 60 66 Q60 66 64 70 Q67 74 64 80 L60 86 Z"
-                stroke="var(--color-accent)" stroke-width="2" fill="var(--color-accent)" opacity="0.8" />
-        </svg>
       </div>
     </div>
   </div>
