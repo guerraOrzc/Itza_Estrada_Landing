@@ -5,22 +5,25 @@
    ============================================ */
 
 :root {
-  /* ---- Colors: Brand (sage green / teal) ---- */
-  --color-primary:            #2d8a7a;
-  --color-primary-light:      #e8f5f1;
-  --color-primary-dark:       #1b6b5d;
+  /* ---- Colors: Brand (official palette) ---- */
+  --color-primary:            #729193;
+  --color-primary-light:      #eef2f2;
+  --color-primary-dark:       #506667;
 
-  /* ---- Colors: Accent (soft terracotta) ---- */
-  --color-accent:             #d4856a;
-  --color-accent-light:       #fdf0eb;
+  /* ---- Colors: Secondary (sage) ---- */
+  --color-secondary:          #b2bcb4;
+
+  /* ---- Colors: Accent (warm sand) ---- */
+  --color-accent:             #e7d5c1;
+  --color-accent-light:       #eee1d3;
 
   /* ---- Colors: Backgrounds ---- */
-  --color-bg:                 #faf8f5;
-  --color-bg-alt:             #f3f0eb;
+  --color-bg:                 #f4ede5;
+  --color-bg-alt:             #c8d5de;
 
   /* ---- Colors: Text ---- */
-  --color-text:               #2c2c2c;
-  --color-text-muted:         #6b6b6b;
+  --color-text:               #222c2c;
+  --color-text-muted:         #747a75;
   --color-text-inverse:       #ffffff;
 
   /* ---- Typography: Font families ---- */
@@ -96,19 +99,21 @@
 
 /* ---- Dark mode ---- */
 [data-theme="dark"] {
-  --color-primary:            #4ecbaf;
-  --color-primary-light:      #1a2e2a;
-  --color-primary-dark:       #3db89e;
+  --color-primary:            #a3b8b9;
+  --color-primary-light:      #171d1d;
+  --color-primary-dark:       #8ea7a9;
 
-  --color-accent:             #e8a38c;
-  --color-accent-light:       #2e201b;
+  --color-secondary:          #8f9990;
 
-  --color-bg:                 #1a1a1a;
-  --color-bg-alt:             #242424;
+  --color-accent:             #e9d9c7;
+  --color-accent-light:       #1c1a17;
 
-  --color-text:               #eaeaea;
-  --color-text-muted:         #9a9a9a;
-  --color-text-inverse:       #1a1a1a;
+  --color-bg:                 #0e1112;
+  --color-bg-alt:             #151a1a;
+
+  --color-text:               #f4ede5;
+  --color-text-muted:         #9aa39c;
+  --color-text-inverse:       #1c2020;
 
   --shadow-sm:                0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md:                0 4px 12px rgba(0, 0, 0, 0.4);
@@ -117,19 +122,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary:            #4ecbaf;
-    --color-primary-light:      #1a2e2a;
-    --color-primary-dark:       #3db89e;
+    --color-primary:            #a3b8b9;
+    --color-primary-light:      #171d1d;
+    --color-primary-dark:       #8ea7a9;
 
-    --color-accent:             #e8a38c;
-    --color-accent-light:       #2e201b;
+    --color-secondary:          #8f9990;
 
-    --color-bg:                 #1a1a1a;
-    --color-bg-alt:             #242424;
+    --color-accent:             #e9d9c7;
+    --color-accent-light:       #1c1a17;
 
-    --color-text:               #eaeaea;
-    --color-text-muted:         #9a9a9a;
-    --color-text-inverse:       #1a1a1a;
+    --color-bg:                 #0e1112;
+    --color-bg-alt:             #151a1a;
+
+    --color-text:               #f4ede5;
+    --color-text-muted:         #9aa39c;
+    --color-text-inverse:       #1c2020;
 
     --shadow-sm:                0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-md:                0 4px 12px rgba(0, 0, 0, 0.4);
