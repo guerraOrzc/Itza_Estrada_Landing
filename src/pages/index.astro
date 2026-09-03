@@ -7,6 +7,8 @@ import Education from '../components/Education.astro';
 import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
+import WaveCap from '../components/WaveCap.astro';
+import WaveSeam from '../components/WaveSeam.astro';
 ---
 
 <BaseLayout
@@ -16,9 +18,13 @@ import Footer from '../components/Footer.astro';
   <Navbar />
   <main>
     <Hero />
+    <WaveCap color="var(--color-secondary)" position="top" overlap />
     <Services />
+    <WaveSeam topColor="var(--color-secondary)" bottomColor="var(--color-wave)" />
     <About />
+    <WaveSeam topColor="var(--color-wave)" bottomColor="var(--color-secondary)" />
     <Education />
+    <WaveSeam topColor="var(--color-secondary)" bottomColor="var(--color-bg)" />
     <Contact />
   </main>
   <Footer />

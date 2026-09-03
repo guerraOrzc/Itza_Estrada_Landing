@@ -21,9 +21,13 @@
   --color-bg:                 #f4ede5;
   --color-bg-alt:             #c8d5de;
 
+  /* ---- Colors: Wave dividers (section separators) ---- */
+  --color-wave:               #c8d5de;
+
   /* ---- Colors: Text ---- */
   --color-text:               #222c2c;
   --color-text-muted:         #747a75;
+  --color-text-muted-strong:  #3f4a43;
   --color-text-inverse:       #ffffff;
 
   /* ---- Typography: Font families ---- */
@@ -111,8 +115,11 @@
   --color-bg:                 #0e1112;
   --color-bg-alt:             #151a1a;
 
+  --color-wave:               #2f3d45;
+
   --color-text:               #f4ede5;
   --color-text-muted:         #9aa39c;
+  --color-text-muted-strong:  #c7d0c9;
   --color-text-inverse:       #1c2020;
 
   --shadow-sm:                0 1px 3px rgba(0, 0, 0, 0.3);
@@ -134,8 +141,11 @@
     --color-bg:                 #0e1112;
     --color-bg-alt:             #151a1a;
 
+    --color-wave:               #2f3d45;
+
     --color-text:               #f4ede5;
     --color-text-muted:         #9aa39c;
+    --color-text-muted-strong:  #c7d0c9;
     --color-text-inverse:       #1c2020;
 
     --shadow-sm:                0 1px 3px rgba(0, 0, 0, 0.3);
