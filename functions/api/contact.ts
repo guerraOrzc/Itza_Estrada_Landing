@@ -23,7 +23,7 @@ interface ErrorResponse {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validate(data: ContactFormData): ValidationError[] {
+export function validate(data: ContactFormData): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.nombre || data.nombre.trim().length === 0) {
@@ -53,7 +53,7 @@ function validate(data: ContactFormData): ValidationError[] {
   return errors;
 }
 
-export const onRequestPost: PagesFunction = async ({ request, env }) => {
+export const onRequestPost: PagesFunction = async ({ request }) => {
   let body: Record<string, string>;
 
   try {
@@ -109,12 +109,12 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
   });
 };
 
-export const onRequest: PagesFunction = async ({ request, env }) => {
-  if (request.method !== "POST") {
+export const onRequest: PagesFunction = async (context) => {
+  if (context.request.method !== "POST") {
     return new Response(
       JSON.stringify({ success: false, errors: [{ field: "method", message: "Metodo no permitido." }] }),
       { status: 405, headers: { "Content-Type": "application/json" } }
     );
   }
-  return onRequestPost({ request, env, params: {}, data: {}, functionPath: "" });
+  return onRequestPost(context);
 };
