@@ -5,6 +5,7 @@ export default getViteConfig(
   {
     test: {
       include: ['tests/unit/**/*.test.ts', 'tests/components/**/*.test.ts'],
+      globalSetup: ['tests/setup/sync-content.ts'],
       coverage: {
         provider: 'v8',
         include: ['functions/**/*.ts', 'src/**/*.{ts,astro}'],

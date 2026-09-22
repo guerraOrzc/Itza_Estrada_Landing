@@ -9,6 +9,7 @@ describe('Education', () => {
     const doc = await render(Education);
     const items = [...doc.querySelectorAll('#formacion article')];
 
+    expect(certs.length).toBeGreaterThan(0);
     expect(items).toHaveLength(certs.length);
     items.forEach((article, i) => {
       expect(texts(article.querySelectorAll('h3'))).toEqual([certs[i].data.title]);
@@ -25,6 +26,7 @@ describe('Education', () => {
       (a) => a.parentElement!.parentElement!.className,
     );
 
+    expect(rows.length).toBeGreaterThan(1);
     rows.forEach((cls, i) => {
       expect(cls).toContain(i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse');
     });

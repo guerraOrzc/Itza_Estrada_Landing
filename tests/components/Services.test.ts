@@ -18,8 +18,10 @@ describe('Services', () => {
 
   test('each card shows its description and a decorative icon', async () => {
     const doc = await render(Services);
+    const cards = doc.querySelectorAll('#servicios article');
 
-    for (const card of doc.querySelectorAll('#servicios article')) {
+    expect(cards.length).toBeGreaterThan(0);
+    for (const card of cards) {
       expect(card.querySelector('p')?.textContent?.trim()).not.toBe('');
       expect(card.querySelector('span')?.getAttribute('aria-hidden')).toBe('true');
     }
