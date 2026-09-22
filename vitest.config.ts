@@ -11,7 +11,7 @@ export default getViteConfig(
         include: ['functions/**/*.ts', 'src/**/*.{ts,astro}'],
         // Schema definitions are consumed by Astro's content layer, not executed by tests.
         exclude: ['src/content/config.ts'],
-        reporter: ['text', 'html'],
+        reporter: ['text', 'html', 'json-summary'],
       },
     },
   },
