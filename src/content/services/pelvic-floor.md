@@ -1,9 +1,13 @@
 ---
-title: "Suelo Pélvico"
-description: "Fortalecimiento y rehabilitación de la musculatura del suelo pélvico para mujeres en todas las etapas de la vida."
-icon: "🌸"
-order: 4
-featured: false
+title: "Suelo pélvico"
+description: "Fortalecimiento y rehabilitación de la musculatura del suelo pélvico para mujeres en todas las etapas de la vida, en un entorno seguro y respetuoso."
+category: servicio
+icon: flower
+order: 5
+highlights:
+  - "Preparación y recuperación posparto"
+  - "Incontinencia y control vesical"
+  - "Fortalecimiento del core"
+image: "/images/services/pelvic-floor.jpg"
+video: "/videos/services/pelvic-floor.mp4"
 ---
-
-El suelo pélvico es fundamental para la estabilidad del core, el control vesical y la salud sexual. Ofrecemos evaluación individualizada y tratamiento respetuoso en un entorno seguro.

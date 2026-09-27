@@ -29,16 +29,16 @@ test('hero video autoplays muted', async ({ page }) => {
 });
 
 test('logos and hero video are served as media', async ({ request }) => {
-  for (const path of ['/images/logos/4.png', '/images/logos/6.png', '/videos/hero-background.mp4', '/favicon.svg']) {
+  for (const path of ['/images/logos/4.png', '/images/logos/6.png', '/images/hero-poster.jpg', '/videos/hero-background.mp4', '/favicon.svg']) {
     const res = await request.get(path);
     expect(res.ok(), path).toBe(true);
     expect(res.headers()['content-type'], path).toMatch(/^(image|video)\//);
   }
 });
 
-// Known gap: these files are referenced but missing. Pages has no 404 page, so it
+// Known gap: this file is referenced but missing. Pages has no 404 page, so it
 // serves index.html (200, text/html) instead. Flip to `test` once they're added.
-for (const path of ['/images/hero-poster.jpg', '/images/og-default.png']) {
+for (const path of ['/images/og-default.png']) {
   test(`referenced asset ${path} exists`, async ({ request }) => {
     test.fail();
     const res = await request.get(path);

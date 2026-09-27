@@ -1,0 +1,427 @@
+---
+import { serviceIcons, type ServiceIconName } from './service-icons';
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  category: 'servicio' | 'padecimiento';
+  icon: ServiceIconName;
+  highlights: string[];
+  image?: string;
+  video?: string;
+  /** Position within its category; picks the cover gradient. */
+  index: number;
+  hidden?: boolean;
+}
+
+const { id, title, description, category, icon, highlights, image, video, index, hidden = false } = Astro.props;
+
+// Fixed palette-derived gradients (dark → light) so covers read like photos in both themes.
+const gradients = {
+  servicio: [
+    ['#445a5b', '#8aa5a5'],
+    ['#506667', '#b2bcb4'],
+    ['#3b4f50', '#7f9c9a'],
+  ],
+  padecimiento: [
+    ['#55665f', '#c9b8a3'],
+    ['#4a5f60', '#b8c7cc'],
+    ['#5b6b64', '#d8c6b1'],
+  ],
+} as const;
+const [from, to] = gradients[category][index % 3];
+const gradientId = `svc-grad-${id}`;
+const backId = `svc-back-${id}`;
+const tag = category === 'servicio' ? 'Servicio' : 'Padecimiento';
+const listLabel = category === 'servicio' ? 'Incluye' : 'Síntomas frecuentes';
+---
+
+<article class="svc-card" data-category={category} data-flipped="false" hidden={hidden}>
+  <div class="svc-inner">
+    <!-- Front -->
+    <div class="svc-face svc-front">
+      {
+        video ? (
+          <video
+            class="svc-cover svc-video"
+            src={video}
+            poster={image}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          />
+        ) : image ? (
+          <img class="svc-cover" src={image} alt="" loading="lazy" decoding="async" />
+        ) : (
+          <div class="svc-cover" aria-hidden="true">
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id={gradientId} x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color={from} />
+                  <stop offset="1" stop-color={to} />
+                </linearGradient>
+              </defs>
+              <rect width="400" height="500" fill={`url(#${gradientId})`} />
+              <circle cx="340" cy="60" r="140" fill="#fff" opacity="0.08" />
+              <path d="M0 360 C80 330 150 390 230 365 C300 343 350 320 400 335 L400 500 L0 500 Z" fill="#fff" opacity="0.06" />
+              <path d="M0 405 C90 380 160 430 250 410 C320 395 360 380 400 390 L400 500 L0 500 Z" fill="#fff" opacity="0.06" />
+            </svg>
+            <span class="svc-ripple">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={serviceIcons[icon]}
+              />
+            </span>
+          </div>
+        )
+      }
+      {(video || image) && <div class="svc-tint" aria-hidden="true" />}
+      <div class="svc-scrim" aria-hidden="true"></div>
+
+      <span class="svc-tag">{tag}</span>
+      <h3 class="svc-title">{title}</h3>
+
+      <button
+        type="button"
+        class="svc-open"
+        aria-expanded="false"
+        aria-controls={backId}
+        aria-label={`Ver más sobre ${title}`}
+      >
+        <span class="svc-open-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- Back -->
+    <div class="svc-face svc-back" id={backId} inert>
+      <p class="svc-back-title">{title}</p>
+      <p class="svc-back-desc">{description}</p>
+
+      <p class="svc-back-label">{listLabel}</p>
+      <ul class="svc-back-list">
+        {highlights.map((item) => <li>{item}</li>)}
+      </ul>
+
+      <div class="svc-back-actions">
+        <a href="#contacto" class="svc-cta">Agenda tu cita</a>
+        <button type="button" class="svc-close" aria-label={`Volver a ${title}`}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .svc-card {
+    perspective: 1400px;
+    cursor: pointer;
+  }
+
+  .svc-card[hidden] {
+    display: none;
+  }
+
+  .svc-inner {
+    display: grid;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 700ms var(--ease-in-out);
+  }
+
+  .svc-card[data-flipped='true'] .svc-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Both faces share one grid cell, so the card grows to fit the taller one. */
+  .svc-face {
+    grid-area: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ---- Front ---- */
+  .svc-front {
+    aspect-ratio: 4 / 5;
+    isolation: isolate;
+    transition:
+      transform var(--transition-base) var(--ease-out),
+      box-shadow var(--transition-base) var(--ease-out);
+  }
+
+  @media (max-width: 639px) {
+    .svc-front {
+      aspect-ratio: 1;
+    }
+  }
+
+  .svc-card[data-flipped='false']:hover .svc-front {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .svc-cover {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow) var(--ease-out);
+  }
+
+  .svc-cover > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .svc-card:hover .svc-cover {
+    transform: scale(1.04);
+  }
+
+  /* Icon inside concentric "water ripple" rings */
+  .svc-ripple {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 38%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:
+      0 0 0 18px rgba(255, 255, 255, 0.06),
+      0 0 0 38px rgba(255, 255, 255, 0.04);
+    transform: translate(-50%, -50%);
+  }
+
+  .svc-ripple svg {
+    width: 50%;
+    height: 50%;
+  }
+
+  /* Pulls photos and loops toward the brand teal so they sit together as a set. */
+  .svc-tint {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(160deg, rgba(114, 145, 147, 0.28), rgba(80, 102, 103, 0.18));
+    mix-blend-mode: multiply;
+  }
+
+  .svc-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgba(20, 28, 28, 0.72) 0%, rgba(20, 28, 28, 0.25) 38%, transparent 60%);
+  }
+
+  .svc-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    background: rgba(34, 44, 44, 0.35);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .svc-title {
+    position: absolute;
+    left: 1.25rem;
+    right: 4.5rem;
+    bottom: 1.25rem;
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    text-wrap: balance;
+  }
+
+  /* Full-face hit area; the visible "+" sits bottom-right. */
+  .svc-open {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1.25rem;
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    cursor: pointer;
+  }
+
+  .svc-open:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: -3px;
+  }
+
+  .svc-open-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-primary-dark);
+    transition: transform var(--transition-base) var(--ease-out);
+  }
+
+  .svc-open-icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .svc-card:hover .svc-open-icon {
+    transform: rotate(90deg);
+  }
+
+  /* ---- Back ---- */
+  .svc-back {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background-color: var(--color-bg);
+    border-top: 4px solid var(--color-primary);
+    transform: rotateY(180deg);
+    cursor: default;
+  }
+
+  .svc-back-title {
+    margin: 0 0 0.75rem;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+  }
+
+  .svc-back-desc {
+    margin: 0;
+    color: var(--color-text-muted-strong);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+  }
+
+  .svc-back-label {
+    margin: 1.25rem 0 0.5rem;
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .svc-back-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .svc-back-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .svc-back-list li::before {
+    content: '';
+    position: absolute;
+    top: 0.45em;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
+
+  .svc-back-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .svc-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .svc-cta:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .svc-close {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--color-secondary);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-text-muted-strong);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+
+  .svc-close:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .svc-close svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .svc-cta:focus-visible,
+  .svc-close:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+</style>
