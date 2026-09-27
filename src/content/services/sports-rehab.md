@@ -1,9 +1,13 @@
 ---
-title: "Rehabilitación Deportiva"
-description: "Programas personalizados de recuperación y prevención de lesiones para deportistas de todos los niveles."
-icon: "🏃"
-order: 2
-featured: true
+title: "Rehabilitación deportiva"
+description: "Programas de recuperación y prevención de lesiones para deportistas de todos los niveles, hasta tu regreso seguro a la actividad."
+category: servicio
+icon: dumbbell
+order: 3
+highlights:
+  - "Análisis biomecánico del movimiento"
+  - "Ejercicio progresivo y readaptación"
+  - "Prevención de recaídas"
+image: "/images/services/sports-rehab.jpg"
+video: "/videos/services/sports-rehab.mp4"
 ---
-
-Cada lesión deportiva requiere un abordaje específico. Evaluamos la biomecánica del movimiento, diseñamos un plan progresivo de ejercicios y te acompañamos hasta el retorno seguro a tu actividad.

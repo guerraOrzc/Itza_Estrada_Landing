@@ -1,8 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
+import ServiceCard from './ServiceCard.astro';
 
 const services = await getCollection('services');
 const sorted = services.sort((a, b) => a.data.order - b.data.order);
+
+const tabs = [
+  { category: 'servicio', label: 'Por servicio' },
+  { category: 'padecimiento', label: 'Por padecimiento' },
+] as const;
+const defaultCategory = tabs[0].category;
+
+const countByCategory = (category: string) => sorted.filter((s) => s.data.category === category).length;
+const indexInCategory = (i: number) =>
+  sorted.slice(0, i).filter((s) => s.data.category === sorted[i].data.category).length;
 ---
 
 <section
@@ -13,7 +24,7 @@ const sorted = services.sort((a, b) => a.data.order - b.data.order);
   "
 >
   <div class="mx-auto" style="max-width: var(--container-max-width);">
-    <div class="mb-12 text-center">
+    <div class="mb-10 text-center">
       <h2
         class="m-0"
         style="
@@ -37,56 +48,248 @@ const sorted = services.sort((a, b) => a.data.order - b.data.order);
           line-height: var(--line-height-relaxed);
         "
       >
-        Cada tratamiento es diseñado específicamente para ti, combinando técnicas
-        manuales, ejercicio terapéutico y educación para el cuidado de tu salud.
+        Explora por tipo de tratamiento o por lo que sientes. Toca cualquier
+        tarjeta para conocer más.
       </p>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="svc-tabs-wrap">
+      <div class="svc-tabs" role="tablist" aria-label="Filtrar servicios">
+        {
+          tabs.map((tab) => {
+            const selected = tab.category === defaultCategory;
+            return (
+              <button
+                type="button"
+                role="tab"
+                class="svc-tab"
+                id={`svc-tab-${tab.category}`}
+                aria-controls="svc-panel"
+                aria-selected={selected ? 'true' : 'false'}
+                tabindex={selected ? 0 : -1}
+                data-category={tab.category}
+              >
+                {tab.label}
+                <span class="svc-tab-count">{countByCategory(tab.category)}</span>
+              </button>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <div
+      id="svc-panel"
+      role="tabpanel"
+      aria-labelledby={`svc-tab-${defaultCategory}`}
+      class="svc-grid"
+    >
       {
-        sorted.map((service) => (
-          <article
-            class="group flex flex-col rounded-[--radius-lg] p-8 transition-all duration-[--transition-base] hover:-translate-y-1"
-            style="
-              background-color: var(--color-bg);
-              box-shadow: var(--shadow-sm);
-            "
-          >
-            <span class="mb-5 text-[2.5rem] leading-none" aria-hidden="true">
-              {service.data.icon}
-            </span>
-
-            <h3
-              class="m-0 mb-3"
-              style="
-                font-family: var(--font-heading);
-                font-size: var(--font-size-xl);
-                font-weight: var(--font-weight-semibold);
-                color: var(--color-text);
-              "
-            >
-              {service.data.title}
-            </h3>
-
-            <p
-              class="m-0 flex-1"
-              style="
-                color: var(--color-text-muted);
-                font-size: var(--font-size-base);
-                line-height: var(--line-height-relaxed);
-              "
-            >
-              {service.data.description}
-            </p>
-
-            <!-- Subtle hover accent line -->
-            <div
-              class="mt-5 h-0.5 w-0 rounded-full transition-all duration-[--transition-base] group-hover:w-full"
-              style="background-color: var(--color-primary);"
-            ></div>
-          </article>
+        sorted.map((service, i) => (
+          <ServiceCard
+            id={service.id}
+            title={service.data.title}
+            description={service.data.description}
+            category={service.data.category}
+            icon={service.data.icon}
+            highlights={service.data.highlights}
+            image={service.data.image}
+            video={service.data.video}
+            index={indexInCategory(i)}
+            hidden={service.data.category !== defaultCategory}
+          />
         ))
       }
     </div>
   </div>
 </section>
+
+<style>
+  .svc-tabs-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .svc-tabs {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.35rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .svc-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.25rem;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-muted-strong);
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-base) var(--ease-out),
+      color var(--transition-base) var(--ease-out);
+  }
+
+  .svc-tab:hover {
+    color: var(--color-text);
+  }
+
+  .svc-tab[aria-selected='true'] {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .svc-tab:focus-visible {
+    outline: 3px solid var(--color-primary-dark);
+    outline-offset: 2px;
+  }
+
+  .svc-tab-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.4rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-xs);
+  }
+
+  .svc-tab[aria-selected='true'] .svc-tab-count {
+    background-color: rgba(255, 255, 255, 0.22);
+    color: inherit;
+  }
+
+  @media (max-width: 400px) {
+    .svc-tab {
+      padding: 0.65rem 0.9rem;
+    }
+  }
+
+  .svc-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+
+  /* Cards fade up, staggered, whenever the tab changes. */
+  .svc-grid :global(.svc-card.svc-enter) {
+    animation: svcEnter 500ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+
+  @keyframes svcEnter {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const section = document.getElementById('servicios');
+  const tabs = [...(section?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? [])];
+  const panel = section?.querySelector<HTMLElement>('[role="tabpanel"]');
+  const cards = [...(section?.querySelectorAll<HTMLElement>('.svc-card') ?? [])];
+
+  function setFlipped(card: HTMLElement, flipped: boolean, moveFocus = false) {
+    card.dataset.flipped = String(flipped);
+    const open = card.querySelector<HTMLButtonElement>('.svc-open');
+    const back = card.querySelector<HTMLElement>('.svc-back');
+    const front = card.querySelector<HTMLElement>('.svc-front');
+    open?.setAttribute('aria-expanded', String(flipped));
+    back?.toggleAttribute('inert', !flipped);
+    if (flipped) stopCover(card);
+    front?.toggleAttribute('inert', flipped);
+    if (moveFocus) {
+      (flipped ? card.querySelector<HTMLElement>('.svc-close') : open)?.focus({ preventScroll: true });
+    }
+  }
+
+  function selectTab(tab: HTMLButtonElement) {
+    const category = tab.dataset.category;
+    for (const t of tabs) {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', String(selected));
+      t.tabIndex = selected ? 0 : -1;
+    }
+    panel?.setAttribute('aria-labelledby', tab.id);
+
+    let i = 0;
+    for (const card of cards) {
+      const show = card.dataset.category === category;
+      setFlipped(card, false);
+      card.hidden = !show;
+      card.classList.remove('svc-enter');
+      if (show) {
+        card.style.setProperty('--i', String(i++));
+        void card.offsetWidth; // restart the enter animation
+        card.classList.add('svc-enter');
+      }
+    }
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      const next = tabs[(tabs.indexOf(tab) + step + tabs.length) % tabs.length];
+      next.focus();
+      selectTab(next);
+    });
+  }
+
+  // Covers show the poster still; the loop plays only while hovered (or while
+  // the card's button has keyboard focus), and rewinds to the still on leave.
+  // Never plays under reduced motion or once the card is flipped.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function playCover(card: HTMLElement) {
+    const video = card.querySelector<HTMLVideoElement>('.svc-video');
+    if (!video || reduceMotion.matches || card.dataset.flipped === 'true') return;
+    video.play().catch(() => {});
+  }
+
+  function stopCover(card: HTMLElement) {
+    const video = card.querySelector<HTMLVideoElement>('.svc-video');
+    if (!video) return;
+    video.pause();
+    if (video.readyState > 0) video.currentTime = 0;
+  }
+
+  for (const card of cards) {
+    card.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && playCover(card));
+    card.addEventListener('pointerleave', () => stopCover(card));
+    card.querySelector('.svc-open')?.addEventListener('focus', () => playCover(card));
+    card.querySelector('.svc-open')?.addEventListener('blur', () => stopCover(card));
+  }
+
+  for (const card of cards) {
+    // Clicking anywhere on the card flips it; links on the back still navigate.
+    card.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('a')) return;
+      const flipped = card.dataset.flipped === 'true';
+      const fromKeyboard = e.detail === 0;
+      setFlipped(card, !flipped, fromKeyboard);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && card.dataset.flipped === 'true') setFlipped(card, false, true);
+    });
+  }
+</script>

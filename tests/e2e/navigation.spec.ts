@@ -23,7 +23,7 @@ test.describe('desktop navigation', () => {
 
   test('hero CTA jumps to the contact form', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: 'Agenda tu cita' }).click();
+    await page.locator('#inicio').getByRole('link', { name: 'Agenda tu cita' }).click();
 
     await expect(page.locator('#contacto form')).toBeInViewport();
   });
