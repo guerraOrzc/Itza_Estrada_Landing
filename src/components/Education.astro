@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import EducationCard from './EducationCard.astro';
 
 const certs = await getCollection('certifications');
 const sorted = certs.sort((a, b) => a.data.order - b.data.order);
@@ -26,6 +27,17 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
         class="mx-auto mt-4 h-1 w-16 rounded-full"
         style="background-color: var(--color-primary);"
       ></div>
+      <p
+        class="mx-auto mt-4 max-w-xl"
+        style="
+          color: var(--color-text-muted-strong);
+          font-size: var(--font-size-lg);
+          line-height: var(--line-height-relaxed);
+        "
+      >
+        Preparación continua para ofrecerte un tratamiento actualizado. Toca
+        cualquier etapa para ver los detalles.
+      </p>
     </div>
 
     <div class="relative mx-auto max-w-4xl">
@@ -41,21 +53,16 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
           sorted.map((cert, i) => {
             const isEven = i % 2 === 0;
             return (
-              <div class={`relative flex pb-12 last:pb-0 md:pb-16 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                {/* Timeline dot */}
+              <div class={`edu-row relative flex pb-12 last:pb-0 md:pb-16 ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+                {/* Timeline dot: fills in while its card is expanded */}
                 <div
-                  class="absolute left-[12px] top-2 z-10 h-4 w-4 rounded-full border-[3px] md:left-1/2 md:-translate-x-1/2"
-                  style="
-                    background-color: var(--color-secondary);
-                    border-color: var(--color-primary);
-                  "
+                  class="edu-dot absolute left-[12px] top-2 z-10 h-4 w-4 rounded-full border-[3px] md:left-1/2 md:-translate-x-1/2"
                   aria-hidden="true"
-                ></div>
+                />
 
                 {/* Spacer for timeline center alignment on desktop */}
-                <div class="hidden w-1/2 md:block" aria-hidden="true"></div>
+                <div class="hidden w-1/2 md:block" aria-hidden="true" />
 
-                {/* Content card */}
                 <div class={`pl-12 md:w-1/2 md:pl-0 ${isEven ? 'md:pr-10 md:text-right' : 'md:pl-10 md:text-left'}`}>
                   <time
                     class="mb-1 inline-block font-semibold tracking-wide"
@@ -68,52 +75,16 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
                     {cert.data.year}
                   </time>
 
-                  <article
-                    class="group rounded-[--radius-md] p-5 transition-all duration-[--transition-base] hover:-translate-y-0.5 hover:shadow-[--shadow-md]"
-                    style="
-                      background-color: var(--color-bg);
-                      box-shadow: var(--shadow-sm);
-                    "
-                  >
-                    <h3
-                      class="m-0 mb-1"
-                      style="
-                        font-family: var(--font-heading);
-                        font-size: var(--font-size-lg);
-                        font-weight: var(--font-weight-semibold);
-                        color: var(--color-text);
-                      "
-                    >
-                      {cert.data.title}
-                    </h3>
-
-                    <p
-                      class="m-0"
-                      style="
-                        color: var(--color-text-muted);
-                        font-size: var(--font-size-sm);
-                        font-weight: var(--font-weight-medium);
-                      "
-                    >
-                      {cert.data.institution}
-                    </p>
-
-                    {
-                      cert.data.description && (
-                        <p
-                          class="m-0 mt-3 border-t pt-3"
-                          style="
-                            color: var(--color-text-muted);
-                            font-size: var(--font-size-sm);
-                            line-height: var(--line-height-relaxed);
-                            border-color: var(--color-primary-light);
-                          "
-                        >
-                          {cert.data.description}
-                        </p>
-                      )
-                    }
-                  </article>
+                  <EducationCard
+                    id={cert.id}
+                    title={cert.data.title}
+                    institution={cert.data.institution}
+                    description={cert.data.description}
+                    topics={cert.data.topics}
+                    image={cert.data.image}
+                    certificate={cert.data.certificate}
+                    align={isEven ? 'end' : 'start'}
+                  />
                 </div>
               </div>
             );
@@ -123,3 +94,39 @@ const sorted = certs.sort((a, b) => a.data.order - b.data.order);
     </div>
   </div>
 </section>
+
+<style>
+  .edu-dot {
+    background-color: var(--color-secondary);
+    border-color: var(--color-primary);
+    transition:
+      background-color var(--transition-base) var(--ease-out),
+      box-shadow var(--transition-base) var(--ease-out);
+  }
+
+  .edu-row[data-open='true'] .edu-dot {
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 6px rgba(114, 145, 147, 0.25);
+  }
+</style>
+
+<script>
+  const cards = [...document.querySelectorAll<HTMLElement>('#formacion .edu-card')];
+
+  function setOpen(card: HTMLElement, open: boolean) {
+    card.dataset.open = String(open);
+    card.closest<HTMLElement>('.edu-row')?.setAttribute('data-open', String(open));
+    card.querySelector('.edu-toggle')?.setAttribute('aria-expanded', String(open));
+    card.querySelector('.edu-panel')?.toggleAttribute('inert', !open);
+  }
+
+  for (const card of cards) {
+    const toggle = card.querySelector<HTMLButtonElement>('.edu-toggle');
+    toggle?.addEventListener('click', () => setOpen(card, card.dataset.open !== 'true'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || card.dataset.open !== 'true') return;
+      setOpen(card, false);
+      toggle?.focus();
+    });
+  }
+</script>

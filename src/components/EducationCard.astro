@@ -1,0 +1,295 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  institution: string;
+  description?: string;
+  topics: string[];
+  image?: string;
+  certificate?: string;
+  /** Which side of the timeline the card sits on (desktop only); "end" mirrors it. */
+  align?: 'start' | 'end';
+}
+
+const { id, title, institution, description, topics, image, certificate, align = 'start' } = Astro.props;
+const panelId = `edu-panel-${id}`;
+---
+
+<article class:list={['edu-card', { 'edu-card--end': align === 'end' }]} data-open="false">
+  <div class="edu-head">
+    <div class="edu-head-text">
+      <h3 class="edu-title">
+        <button type="button" class="edu-toggle" aria-expanded="false" aria-controls={panelId}>
+          {title}
+        </button>
+      </h3>
+      <p class="edu-inst">{institution}</p>
+    </div>
+    <span class="edu-chevron" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </span>
+  </div>
+
+  <!-- Expands out of the bottom of the card -->
+  <div class="edu-panel" id={panelId} inert>
+    <div class="edu-panel-clip">
+      <div class="edu-panel-body">
+        {image && <img class="edu-photo" src={image} alt="" loading="lazy" decoding="async" />}
+
+        {description && <p class="edu-desc">{description}</p>}
+
+        {
+          topics.length > 0 && (
+            <ul class="edu-topics">
+              {topics.map((topic) => (
+                <li>{topic}</li>
+              ))}
+            </ul>
+          )
+        }
+
+        {
+          certificate && (
+            <a class="edu-doc" href={certificate} target="_blank" rel="noopener">
+              <img src={certificate} alt={`Documento: ${title}`} loading="lazy" decoding="async" />
+              <span>Ver documento</span>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .edu-card {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--transition-base) var(--ease-out),
+      box-shadow var(--transition-base) var(--ease-out);
+  }
+
+  .edu-card:hover,
+  .edu-card[data-open='true'] {
+    box-shadow: var(--shadow-md);
+  }
+
+  .edu-card[data-open='false']:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ---- Header (always visible) ---- */
+  .edu-head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .edu-head-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .edu-title {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    color: var(--color-text);
+  }
+
+  /* The toggle's hit area stretches over the whole header. */
+  .edu-toggle {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+
+  .edu-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .edu-toggle:focus-visible {
+    outline: none;
+  }
+
+  .edu-toggle:focus-visible::after {
+    outline: 3px solid var(--color-primary);
+    outline-offset: -3px;
+  }
+
+  .edu-inst {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .edu-chevron {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    transition:
+      transform var(--transition-base) var(--ease-out),
+      background-color var(--transition-base) var(--ease-out),
+      color var(--transition-base) var(--ease-out);
+  }
+
+  .edu-chevron svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .edu-card:hover .edu-chevron {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .edu-card[data-open='true'] .edu-chevron {
+    transform: rotate(180deg);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  /* ---- Panel ---- */
+  .edu-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 450ms var(--ease-in-out);
+  }
+
+  .edu-card[data-open='true'] .edu-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .edu-panel-clip {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .edu-panel-body {
+    padding: 0 1.25rem 1.25rem;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+  }
+
+  .edu-card[data-open='true'] .edu-panel-body {
+    opacity: 1;
+    transform: none;
+    transition-delay: 150ms;
+  }
+
+  .edu-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .edu-desc {
+    margin: 1rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-primary-light);
+    color: var(--color-text-muted-strong);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .edu-photo + .edu-desc {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .edu-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .edu-topics li {
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .edu-doc {
+    display: block;
+    margin-top: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--color-secondary);
+    border-radius: var(--radius-md);
+    color: var(--color-primary-dark);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+  }
+
+  .edu-doc img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .edu-doc span {
+    display: block;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .edu-doc:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Cards left of the line mirror: text hugs the timeline, chevron on the outer edge. */
+  @media (min-width: 768px) {
+    .edu-card--end {
+      text-align: right;
+    }
+
+    .edu-card--end .edu-head {
+      flex-direction: row-reverse;
+    }
+
+    .edu-card--end .edu-topics {
+      justify-content: flex-end;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .edu-panel,
+    .edu-panel-body {
+      transition: none;
+    }
+  }
+</style>
