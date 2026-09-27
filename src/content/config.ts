@@ -24,6 +24,11 @@ const certifications = defineCollection({
     year: z.number(),
     description: z.string().optional(),
     order: z.number(),
+    // Shown in the card's expanding panel.
+    topics: z.array(z.string()).default([]),
+    // Cover photo, and an optional scan of the diploma/certificate shown when expanded.
+    image: z.string().optional(),
+    certificate: z.string().optional(),
   }),
 });
 
